@@ -1,0 +1,5 @@
+objautoencoder_pretrained/
+output/
+pretrained/
+ChamferDistancePytorch/
+scripts/wandb
