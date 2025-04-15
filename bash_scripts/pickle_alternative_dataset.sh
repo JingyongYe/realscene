@@ -1,1 +1,0 @@
-python /mnt/c/Users/kony/PycharmProjects/DiffuScene/scripts/pickle_threed_fucture_dataset.py /cluster/balrog/jtang/3d_front_processed/ /cluster/balrog/jtang/3D-FRONT/ /mnt/c/Users/kony/PycharmProjects/Model_20250314 /mnt/c/Users/kony/PycharmProjects/Model_20250314/model_info.json  --dataset_filtering threed_front_bedroom --annotation_file ../config/bedroom_threed_front_splits.csv
