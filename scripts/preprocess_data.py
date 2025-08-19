@@ -79,7 +79,8 @@ def main(argv):
             "threed_front_bedroom",
             "threed_front_livingroom",
             "threed_front_diningroom",
-            "threed_front_library"
+            "threed_front_library",
+            "no_filtering"
         ],
         help="The type of dataset filtering to be used"
     )
@@ -195,11 +196,13 @@ def main(argv):
         print(of_bounds[0].tolist() + of_bounds[1].tolist() + of_bounds[2].tolist())
         print("add objfeats statistics: std {}, min {}, max {}".format(of_bounds[0], of_bounds[1], of_bounds[2]))
 
+        '''
         of_bounds_32 = dataset.bounds["objfeats_32"]
         print([of_bounds_32[0], of_bounds_32[1], of_bounds_32[2]], type(of_bounds_32[0]), of_bounds_32[0].shape)
         dataset_stats["bounds_objfeats_32"] = of_bounds_32[0].tolist() + of_bounds_32[1].tolist() + of_bounds_32[2].tolist()
         print(of_bounds_32[0].tolist() + of_bounds_32[1].tolist() + of_bounds_32[2].tolist())
         print("add objfeats_32 statistics: std {}, min {}, max {}".format(of_bounds_32[0], of_bounds_32[1], of_bounds_32[2]))
+        '''
 
     path_to_json = os.path.join(args.output_directory, "dataset_stats.txt")
     with open(path_to_json, "w") as f:
@@ -272,7 +275,7 @@ def main(argv):
                     sizes=es["sizes"],
                     angles=es["angles"],
                     objfeats=es["objfeats"],
-                    objfeats_32=es["objfeats_32"],
+                    #objfeats_32=es["objfeats_32"],
                 )
             else:
                 np.savez_compressed(

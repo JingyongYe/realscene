@@ -135,6 +135,7 @@ def get_textured_objects_in_scene(scene, ignore_lamps=False):
             pdb.set_trace()
 
         # Load the furniture and scale it as it is given in the dataset
+        print(model_path)
         raw_mesh = TexturedMesh.from_file(model_path)
         raw_mesh.scale(furniture.scale)
 

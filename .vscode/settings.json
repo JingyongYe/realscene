@@ -1,5 +1,5 @@
 {
-    "marscode.chatLanguage": "cn",
+    "marscode.chatLanguage": "auto",
     "marscode.codeCompletionPro": {
         "enableCodeCompletionPro": true
     },

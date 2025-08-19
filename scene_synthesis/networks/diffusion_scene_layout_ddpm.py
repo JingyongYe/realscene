@@ -129,6 +129,7 @@ class DiffusionSceneLayout_DDPM(Module):
             self.arrange_emb_dim = 0
 
     def get_loss(self, sample_params):
+        
         # Unpack the sample_params
         if self.objectness_dim >0:
             objectness   = sample_params["objectness"]
@@ -143,6 +144,12 @@ class DiffusionSceneLayout_DDPM(Module):
                 objfeats = sample_params["objfeats"]
         room_layout = sample_params["room_layout"]
         batch_size, num_points, _ = class_labels.shape
+
+        '''
+        # 验证
+        print(f"Debug shapes - translations: {translations.shape}")
+        print(f"sizes: {sizes.shape} angles: {angles.shape} class_labels: {class_labels.shape} objfeats: {objfeats.shape}")、
+        '''
 
         # get desired diffusion target
         if self.config["point_dim"] == self.bbox_dim+self.class_dim+self.objectness_dim+self.objfeat_dim:
