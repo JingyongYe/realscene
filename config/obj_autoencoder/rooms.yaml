@@ -1,6 +1,6 @@
 data:
     dataset_type: "cached_threedfront"
-    encoding_type: "cached_diffusion_cosin_angle_wocm"
+    encoding_type: "cached_diffusion_cosin_angle_wocm" #"cached_diffusion_wocm_no_prm"
     dataset_directory: "/cluster/balrog/jtang/3d_front_processed/"
     annotation_file: "../config/room_threed_front_splits.csv"
     path_to_invalid_scene_ids: "../config/invalid_threed_front_room.txt"
@@ -15,6 +15,7 @@ data:
     path_to_3d_future_dataset_directory: "/mnt/c/Users/kony/PycharmProjects/Model_20250314/"
     path_to_model_info: "/mnt/c/Users/kony/PycharmProjects/Model_20250314/model_info.json"
     without_lamps: false
+    max_length: 30
 
 network:
     type: "diffusion_scene_layout_ddpm"
@@ -58,7 +59,7 @@ training:
     lr_decay: 0.1
 
 validation:
-    splits: ["val"]
+    splits: ["train", "val", "test"] #["val"]
     frequency: 10
     batch_size: 16
     gen_traj: false

@@ -890,6 +890,12 @@ class Diffusion(DatasetDecoratorBase):
         sample_params = self._dataset[idx]
         max_length = self._dataset.max_length
 
+        # 添加调试输出
+        '''
+        print(f"当前 max_length: {max_length}")
+        print(f"当前Sample length: {sample_params['class_labels'].shape[0]}")
+        '''
+
         # Add the number of bounding boxes in the scene
         sample_params["length"] = sample_params["class_labels"].shape[0]
         
@@ -954,6 +960,7 @@ def dataset_encoding_factory(
                 dataset_collection = OrderedDataset(
                     CachedDatasetCollection(dataset),
                     ["class_labels", "translations", "sizes", "angles", "objfeats_32"],
+                    #["class_labels", "translations", "sizes", "angles", "objfeats"],
                     box_ordering=box_ordering
                 )
                 print("use lat32 as objfeats")
@@ -981,7 +988,7 @@ def dataset_encoding_factory(
         sizes = SizeEncoder(box_ordered_dataset)
         angles = AngleEncoder(box_ordered_dataset)
         objfeats = ObjFeatEncoder(box_ordered_dataset)
-        objfeats_32 = ObjFeat32Encoder(box_ordered_dataset)
+        #objfeats_32 = ObjFeat32Encoder(box_ordered_dataset)
 
         dataset_collection = DatasetCollection(
             room_layout,
@@ -990,7 +997,7 @@ def dataset_encoding_factory(
             sizes,
             angles,
             objfeats,
-            objfeats_32,
+            #objfeats_32,
         )
 
     if name == "basic":
@@ -1000,7 +1007,7 @@ def dataset_encoding_factory(
             sizes,
             angles, 
             objfeats,
-            objfeats_32
+            #objfeats_32
         )
 
     if isinstance(augmentations, list):

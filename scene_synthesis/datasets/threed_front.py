@@ -37,12 +37,12 @@ class ThreedFront(BaseDataset):
                 self._objfeats = bounds["objfeats"]
             else:
                 self._objfeats = (np.array([1]), np.array([-1]), np.array([1])) # std, min, max
-
+            '''
             if "objfeats_32" in bounds.keys():
                 self._objfeats_32 = bounds["objfeats_32"]
             else:
                 self._objfeats_32 = (np.array([1]), np.array([-1]), np.array([1])) # std, min, max
-        
+            '''        
         self._max_length = None
 
     def __str__(self):
@@ -81,11 +81,13 @@ class ThreedFront(BaseDataset):
         _objfeat_std = np.array([1])
         _objfeat_min = np.array([10000000000])
         _objfeat_max = np.array([-10000000000])
+        '''
         _objfeat_32_std = np.array([1])
         _objfeat_32_min = np.array([10000000000])
         _objfeat_32_max = np.array([-10000000000])
+        '''
         all_objfeats = []
-        all_objfeats_32 = []
+        #all_objfeats_32 = []
         for s in self.scenes:
             for f in s.bboxes:
                 if np.any(f.size > 5):
@@ -98,18 +100,18 @@ class ThreedFront(BaseDataset):
                 _angle_min = np.minimum(f.z_angle, _angle_min)
                 _angle_max = np.maximum(f.z_angle, _angle_max)
                 all_objfeats.append(f.raw_model_norm_pc_lat())
-                all_objfeats_32.append(f.raw_model_norm_pc_lat32())
+                #all_objfeats_32.append(f.raw_model_norm_pc_lat32())
 
         all_objfeats = np.stack(all_objfeats, axis=0)
-        all_objfeats_32 = np.stack(all_objfeats_32, axis=0)
+        #all_objfeats_32 = np.stack(all_objfeats_32, axis=0)
         _objfeat_std, _objfeat_min, _objfeat_max = np.array([all_objfeats.flatten().std()]), np.array([all_objfeats.min()]), np.array([all_objfeats.max()])
-        _objfeat_32_std, _objfeat_32_min, _objfeat_32_max = np.array([all_objfeats_32.flatten().std()]), np.array([all_objfeats_32.min()]), np.array([all_objfeats_32.max()])
+        #_objfeat_32_std, _objfeat_32_min, _objfeat_32_max = np.array([all_objfeats_32.flatten().std()]), np.array([all_objfeats_32.min()]), np.array([all_objfeats_32.max()])
             
         self._sizes = (_size_min, _size_max)
         self._centroids = (_centroid_min, _centroid_max)
         self._angles = (_angle_min, _angle_max)
         self._objfeats = (_objfeat_std, _objfeat_min, _objfeat_max)
-        self._objfeats_32 = ( _objfeat_32_std, _objfeat_32_min, _objfeat_32_max )
+        #self._objfeats_32 = ( _objfeat_32_std, _objfeat_32_min, _objfeat_32_max )
 
     @property
     def bounds(self):
@@ -118,7 +120,7 @@ class ThreedFront(BaseDataset):
             "sizes": self.sizes,
             "angles": self.angles,
             "objfeats": self.objfeats,
-            "objfeats_32": self.objfeats_32,
+            #"objfeats_32": self.objfeats_32,
         }
 
     @property
@@ -245,7 +247,7 @@ class CachedRoom(object):
         sizes,
         angles,
         objfeats,
-        objfeats_32,
+        #objfeats_32,
         image_path
     ):
         self.scene_id = scene_id
@@ -258,7 +260,7 @@ class CachedRoom(object):
         self.sizes = sizes
         self.angles = angles
         self.objfeats = objfeats
-        self.objfeats_32 = objfeats_32
+        #self.objfeats_32 = objfeats_32
         self.image_path = image_path
 
     @property
@@ -282,7 +284,8 @@ class CachedThreedFront(ThreedFront):
         self._tags = sorted([
             oi
             for oi in os.listdir(self._base_dir)
-            if oi.split("_")[1] in scene_ids
+            #if oi.split("_")[1] in scene_ids
+            if oi.split("_")[-1] in scene_ids
         ])
         self._path_to_rooms = sorted([
             os.path.join(self._base_dir, pi, "boxes.npz")
@@ -342,7 +345,7 @@ class CachedThreedFront(ThreedFront):
             sizes=D["sizes"],
             angles=D["angles"],
             objfeats=D["objfeats"] if "objfeats" in D.keys() else None,
-            objfeats_32=D["objfeats_32"] if "objfeats_32" in D.keys() else None,
+            #objfeats_32=D["objfeats_32"] if "objfeats_32" in D.keys() else None,
             image_path=self._path_to_renders[i]
         )
 
@@ -367,9 +370,10 @@ class CachedThreedFront(ThreedFront):
         }
         if "objfeats" in D.keys():
             data_dict[ "objfeats" ] = D["objfeats"]
+        '''
         if "objfeats_32" in D.keys():
             data_dict[ "objfeats_32" ] = D["objfeats_32"]
-        
+        '''
         return data_dict
 
     def __len__(self):
@@ -399,13 +403,14 @@ class CachedThreedFront(ThreedFront):
         else:
             self._objfeats = ( np.array([1]), np.array([-1]), np.array([1]) )
 
+        '''
         if "bounds_objfeats_32" in train_stats.keys():
             self._objfeats_32 = train_stats["bounds_objfeats_32"]
             print("bounds_objfeats_32 of dataset:", self._objfeats_32)
             self._objfeats_32 = ( np.array([self._objfeats_32[0]]), np.array([self._objfeats_32[1]]), np.array([self._objfeats_32[2]]) )
         else:
             self._objfeats_32 = ( np.array([1]), np.array([-1]), np.array([1]) )
-
+        '''
 
         self._class_labels = train_stats["class_labels"]
         self._object_types = train_stats["object_types"]
@@ -437,4 +442,6 @@ class CachedThreedFront(ThreedFront):
     #compute max_lenght for diffusion models
     @property
     def max_length(self):
+        self._max_length = 30
+        #print('max_length is :', self._max_length)
         return self._max_length

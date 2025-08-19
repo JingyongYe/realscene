@@ -117,6 +117,7 @@ def main(argv):
     )
     print("Loading train dataset with {} rooms".format(len(scenes_train_dataset)))
 
+    '''
 
     # add dining rooms
     config2 = {
@@ -152,6 +153,8 @@ def main(argv):
     )
     print("Loading train dataset 3 with {} rooms".format(len(scenes_train_dataset3)))
 
+    '''
+
     scenes_validation_dataset = ThreedFront.from_dataset_directory(
         dataset_directory=config["data"]["path_to_3d_front_dataset_directory"],
         path_to_model_info=config["data"]["path_to_model_info"],
@@ -165,6 +168,9 @@ def main(argv):
     for scene in scenes_train_dataset:
         for obj in scene.bboxes:
             train_objects[obj.model_jid] = obj
+    
+    '''
+
     # diningroom
     for scene in scenes_train_dataset2:
         for obj in scene.bboxes:
@@ -173,6 +179,9 @@ def main(argv):
     for scene in scenes_train_dataset3:
         for obj in scene.bboxes:
             train_objects[obj.model_jid] = obj
+    
+    '''
+    
     train_objects = [vi for vi in train_objects.values()]
     train_dataset = ThreedFutureNormPCDataset(train_objects)
 

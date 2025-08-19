@@ -53,7 +53,9 @@ def main(argv):
             "threed_front_bedroom",
             "threed_front_livingroom",
             "threed_front_diningroom",
-            "threed_front_library"
+            "threed_front_room",
+            "threed_front_library",
+            "no_filtering"
         ],
         help="The type of dataset filtering to be used"
     )
